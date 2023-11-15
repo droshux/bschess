@@ -4,7 +4,13 @@ import { BS } from "./bs.js"
 import { HttpStatus } from "http-status-ts"
 import * as dotenv from "dotenv"
 
+dotenv.config()
+
 export const router = express.Router()
+export const systemRouter = express.Router()
+
+const pwdCheck = (req: Request): boolean =>
+  !process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD
 
 // GET bss
 router.get("/", async (_req: Request, res: Response) => {
@@ -52,7 +58,7 @@ router.post("/", async (req: Request, res: Response) => {
 // PUT bss/:id
 router.put("/:id", async (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id, 10)
-  if (!process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD)
+  if (pwdCheck(req))
     return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
   try {
     if (await BSService.find(id)) 
@@ -66,11 +72,26 @@ router.put("/:id", async (req: Request, res: Response) => {
 // Password protected
 // DELETE bss/:id
 router.delete("/:id", async (req: Request, res: Response) => {
-  if (!process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD)
+  if (pwdCheck(req))
     return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
   try {
     await BSService.remove(parseInt(req.params.id, 10))
     res.sendStatus(HttpStatus.NO_CONTENT)
+  } catch (e: any) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
+  }
+})
+
+// Password protected
+// Shutdown the server
+// GET bss/quit
+systemRouter.get("/quit", async (req: Request, res: Response) => {
+  if (pwdCheck(req))
+    return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
+  try {
+    await BSService.save()
+    res.status(HttpStatus.OK).send("Data saved successfully, shutting down...")
+    process.exit(0)
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
   }

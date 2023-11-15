@@ -1,8 +1,9 @@
 import { BS } from "./bs.js"
 import { regularPiece,  } from "../piececost.js"
+import { readFileSync, writeFileSync } from "fs"
 
 export type BSstore = {[id: number]: BS}
-let BSs: BSstore = {
+/*let BSs: BSstore = {
   1: {
     name: "Test Event",
     lore: "Test Lore",
@@ -24,7 +25,8 @@ let BSs: BSstore = {
     take: "[move]",
     lives: 1
   }
-}
+}*/
+let BSs: BSstore = {}
 const maxID = (): number => Object.keys(BSs)
   .map((a: string) => +a)
   .reduce((a: number, b: number) => Math.max(a, b))
@@ -64,3 +66,8 @@ export const draw = async (count: number): Promise<BS[] | null> => {
   outIndexes.forEach((i: number) => out.push(BSs[i]))
   return out;
 }
+export const save = async (): Promise<void> =>
+  // JSON.stringify could be replaced with a stream when BSs is too big.
+  writeFileSync('./session/bss.json', JSON.stringify(BSs))
+export const load = async (): Promise<void> =>
+  BSs = JSON.parse(readFileSync("./session/bss.json", "utf8"))
