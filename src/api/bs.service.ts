@@ -1,7 +1,8 @@
-import { BS } from "../models/bs"
-import { regularPiece,  } from "../piececost"
+import { BS } from "./bs.js"
+import { regularPiece,  } from "../piececost.js"
 
-let BSs: {[id: number]: BS} = {
+export type BSstore = {[id: number]: BS}
+let BSs: BSstore = {
   1: {
     name: "Test Event",
     lore: "Test Lore",
