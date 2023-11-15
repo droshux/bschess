@@ -2,6 +2,7 @@ import express, {Request, Response } from "express"
 import * as BSService from "./bs.service.js"
 import { BS } from "./bs.js"
 import { HttpStatus } from "http-status-ts"
+import * as dotenv from "dotenv"
 
 export const router = express.Router()
 
@@ -35,9 +36,12 @@ router.post("/", async (req: Request, res: Response) => {
   }
 })
 
+// Password protected
 // PUT bss/:id
 router.put("/:id", async (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id, 10)
+  if (!process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD)
+    return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
   try {
     if (await BSService.find(id)) 
       return res.status(HttpStatus.OK).json(BSService.update(id, req.body))
@@ -47,8 +51,11 @@ router.put("/:id", async (req: Request, res: Response) => {
   }
 })
 
+// Password protected
 // DELETE bss/:id
 router.delete("/:id", async (req: Request, res: Response) => {
+  if (!process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD)
+    return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
   try {
     await BSService.remove(parseInt(req.params.id, 10))
     res.sendStatus(HttpStatus.NO_CONTENT)
