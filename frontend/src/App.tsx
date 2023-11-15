@@ -1,8 +1,27 @@
+import { HomePage } from "./pages/home"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Layout } from "./pages/layout"
+import { LearnPage } from "./pages/learn"
+import { RulesPage } from "./pages/rules"
+import { BrowsePage } from "./pages/browse"
+import { PageNotFound } from "./pages/404"
+
 function App() {
 
   return (
     <>
-      <h1>EMPTY FRONTEND</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout/>}>
+            <Route index element={<HomePage/>}/>
+            <Route path="learn" element={<LearnPage/>}/>
+            <Route path="rules" element={<RulesPage/>}/>
+            <Route path="browse" element={<BrowsePage/>}/>
+            <Route path="create" element={<LearnPage/>}/>
+            <Route path="*" element={<PageNotFound/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
