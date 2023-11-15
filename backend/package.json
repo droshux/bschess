@@ -1,5 +1,5 @@
 {
-  "name": "bschess_api",
+  "name": "bschess_backend",
   "version": "0.0.0",
   "description": "The back-end for the bschess website system.",
   "type": "module",
