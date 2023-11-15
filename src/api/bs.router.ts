@@ -27,6 +27,18 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 })
 
+// GET bss/draw/:count
+router.get("/draw/:count", async (req: Request, res: Response) => {
+  try {
+    const hand: BS[] | null = await BSService.draw(parseInt(req.params.count, 10))
+    if (!hand) return res.status(HttpStatus.NOT_ACCEPTABLE)
+      .send("Not enough BSs to draw from.")
+    res.status(HttpStatus.OK).send(hand)
+  } catch (e: any) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
+  }
+})
+
 // POST bss
 router.post("/", async (req: Request, res: Response) => {
   try {
