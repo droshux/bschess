@@ -2,7 +2,7 @@ function App() {
 
   return (
     <>
-      <h1>EMPTY FRONTENT</h1>
+      <h1>EMPTY FRONTEND</h1>
     </>
   )
 }
