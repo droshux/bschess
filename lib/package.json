@@ -1,0 +1,14 @@
+{
+  "name": "bschess_lib",
+  "version": "0.0.0",
+  "description": "The shared code between backend and frontend of bschess",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "droshux",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

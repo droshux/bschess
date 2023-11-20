@@ -1,5 +1,5 @@
 // The structure of a BS
-import { PieceCost } from "../piececost.js";
+import { PieceCost } from "./piececost"
 
 export interface Base_BS {
   name: string // The name of the BS

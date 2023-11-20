@@ -1,6 +1,6 @@
 import express, {Request, Response } from "express"
 import * as BSService from "./bs.service.js"
-import { BS } from "./bs.js"
+import { BS } from "@lib/bs"
 import { HttpStatus } from "http-status-ts"
 import * as dotenv from "dotenv"
 

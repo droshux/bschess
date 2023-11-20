@@ -1,5 +1,4 @@
-import { BS } from "./bs.js"
-import { regularPiece,  } from "../piececost.js"
+import { BS } from "@lib/bs"
 import { readFileSync, writeFileSync } from "fs"
 
 export type BSstore = {[id: number]: BS}
