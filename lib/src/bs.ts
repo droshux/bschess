@@ -21,3 +21,4 @@ export interface Piece_BS extends Base_BS {
 
 export type BS = Base_BS | Piece_BS
 // export type BS = Partial<Piece_BS>
+export type BSstore = {[id: number]: BS}

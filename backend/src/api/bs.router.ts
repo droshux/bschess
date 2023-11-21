@@ -15,7 +15,7 @@ const pwdCheck = (req: Request): boolean =>
 // GET bss
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    res.status(HttpStatus.OK).send(await BSService.findall());
+    res.status(HttpStatus.OK).contentType("application/json").send(await BSService.findall());
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
   }
@@ -26,7 +26,7 @@ router.get("/:id", async (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id, 10)
   try {
     const bs: BS = await BSService.find(id)
-    if (bs) return res.status(HttpStatus.OK).send(bs)
+    if (bs) return res.status(HttpStatus.OK).contentType("application/json").send(bs)
     res.status(HttpStatus.NOT_FOUND).send("bs not found")
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
@@ -39,7 +39,7 @@ router.get("/draw/:count", async (req: Request, res: Response) => {
     const hand: BS[] | null = await BSService.draw(parseInt(req.params.count, 10))
     if (!hand) return res.status(HttpStatus.NOT_ACCEPTABLE)
       .send("Not enough BSs to draw from.")
-    res.status(HttpStatus.OK).send(hand)
+    res.status(HttpStatus.OK).contentType("application/json").send(hand)
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
   }
@@ -84,7 +84,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
 // Password protected
 // Shutdown the server
-// GET bss/quit
+// GET sys/quit
 systemRouter.get("/quit", async (req: Request, res: Response) => {
   if (pwdCheck(req))
     return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")

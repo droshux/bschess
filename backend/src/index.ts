@@ -16,8 +16,14 @@ const PORT: number = parseInt(process.env.PORT as string, 10)
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use("/bss", router) // Include our router in the express
-app.use("/sys", systemRouter)
+
+// // Experimental Proxy Code
+// import * as proxy from 'express-http-proxy'
+// app.use("site/",proxy.default("http://localhost:5173", {
+//   preserveHostHdr: true
+// }))
+// app.use("api/bss", router) // Include our router in the express
+// app.use("/sys", systemRouter)
 
 // Load data from file
 await load()
