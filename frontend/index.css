@@ -1,0 +1,80 @@
+/* Global Style Vars Here */
+:root {
+  /* Colour Scheme */
+  --white: #ffffff;
+  --dark: #a7711f;
+  --bgl: #f4d5d5;
+  --bgd: #ec8181;
+  --accent2: #fffba1;
+  /* From: https://www.color-hex.com/color-palette/102857 */
+}
+@font-face {
+  font-family: 'Delius';
+  src: url('./public/fonts/Delius-Regular.ttf')
+}
+html {
+  background-color: var(--white);
+  background-image: linear-gradient(
+    45deg,
+    var(--bgl) 25%,
+    transparent 25%,
+    transparent 75%,
+    var(--bgl) 75%,
+    var(--bgl)
+  ),
+  linear-gradient(
+    -45deg,
+    var(--bgl) 25%,
+    transparent 25%,
+    transparent 75%,
+    var(--bgl) 75%,
+    var(--bgl)
+  );
+  background-size: 60px 60px;
+  background-repeat: repeat;
+
+  font-family: 'Delius';
+}
+p.text {
+  overflow-wrap: break-word;
+  background-color: var(--white);
+  border: var(--bgd) solid 3px;
+  padding: 1em;
+}
+h1 {
+  background-color: var(--bgl);
+  padding: 0.1em;
+  border-radius: 0.5em;
+  display: inline-block;
+}
+
+div.navmenu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: var(--white);
+  width:100%;
+  min-height: 5%;
+  border-top: var(--bgd) solid 3px;
+}
+div.navmenu > nav {
+  display: none;
+}
+div.navmenu:hover > nav {
+  display: block;
+}
+div.navmenu > p {
+  padding-left: 1%;
+  margin: 0.5%;
+  font-size: 16pt;
+}
+div.navmenu > nav > a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  margin-left: 0.5%;
+}
+
+div.navmenu > nav > a:hover {
+  text-decoration: underline;
+}

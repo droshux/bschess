@@ -1,7 +1,7 @@
 export const HomePage = () => (<>
   <h1>Bullsh*t Chess:</h1>
   <div>
-    <p>
+    <p className="text">
       BS-Chess is a "simple" game, chess but you can do <strong>literally anything </strong>
       you want, the only thing stopping you from instantly winning is the
       fact that your opponent has <strong>veto power</strong>. So to win you

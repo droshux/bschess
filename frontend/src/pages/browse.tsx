@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { BSstore} from '@lib/index'
 import { BSrender } from '../components/bs'
-// export const BrowsePage = () => <h1>Browse Bullsh*ts:</h1>
 
 type BrowsePageSTATE = {
   bss: BSstore
@@ -9,7 +8,7 @@ type BrowsePageSTATE = {
 type BrowsePagePROPS = {}
 export class BrowsePage extends React.Component<BrowsePagePROPS, BrowsePageSTATE> {
 
-  refresh = async (): Promise<BSstore | null> => {
+  fetchBSs = async (): Promise<BSstore | null> => {
     let out: BSstore | null = null
     await fetch(`/bss`, {
       headers: {
@@ -20,15 +19,21 @@ export class BrowsePage extends React.Component<BrowsePagePROPS, BrowsePageSTATE
       .then(json => { out = json })
     return out
   }
+
   constructor(props: BrowsePagePROPS) {
     super(props)
     this.state = {bss: {}}
+    this.refresh = this.refresh.bind(this)
   }
-  componentDidMount(): void {
-    this.refresh().then((o: BSstore | null) => {
+
+  refresh = () =>
+    this.fetchBSs().then((o: BSstore | null) => {
       if (!o) console.error("REFRESH FAILED")
       else this.setState({bss: o})
     })
+
+  componentDidMount(): void {
+    this.refresh()
   }
 
   render(): React.ReactNode {
@@ -40,8 +45,10 @@ export class BrowsePage extends React.Component<BrowsePagePROPS, BrowsePageSTATE
         ))
     return (<>
       <h1>Browse Bullsh*ts:</h1>
-      <button>REFRESH</button>
-      {bssElems}
+      <button className='refresh' onClick={this.refresh}>♗ REFRESH ♗</button>
+      <div>
+        <div className='bssContainer'>{bssElems}</div>
+      </div>
     </>)
   }
 }
