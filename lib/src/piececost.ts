@@ -1,6 +1,6 @@
 export class PieceCost {
-  private regular_cost:number[] = new Array(5)
-  private bspiece_cost:string[] = []
+  public regular_cost:number[] = new Array(5)
+  public bspiece_cost:string[] = []
 
   /**
    * @param [clamp=true] Are the input values limited to the max number of
@@ -26,8 +26,8 @@ export class PieceCost {
   }
 
 
-  public toString = (): string => {
-    const nameArr: string[] = ["pawn", "horse", "bishop", "rook", "queen"]
+  public toString = (symbols: boolean = false): string => {
+    const nameArr: string[] = symbols ? ['♟','♞','♝','♜','♛'] : ["pawn", "horse", "bishop", "rook", "queen"]
     let stringOut: string = "";
 
     for (let i = 0; i < this.regular_cost.length; i++) {
@@ -36,7 +36,6 @@ export class PieceCost {
       stringOut += elem > 1 ? `${elem} ${nameArr[i]}s ` : `${nameArr[i]} `
     }
     this.bspiece_cost.forEach(elem => stringOut += `${elem} `)
-
     return stringOut.trimEnd()
   }
 
@@ -57,6 +56,6 @@ export function regularPiece (
     case "queen":
       return new PieceCost(true, 0, 0, 0, 0, 1, [])
     default:
-      return new PieceCost(true, 1, 0, 0, 0, 0, [])
+      return new PieceCost(true, 0, 0, 0, 0, 0, [])
   }
 }

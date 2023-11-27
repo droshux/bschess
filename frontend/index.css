@@ -10,7 +10,7 @@
 }
 @font-face {
   font-family: 'Delius';
-  src: url('./public/fonts/Delius-Regular.ttf')
+  src: url('./fonts/Delius-Regular.ttf')
 }
 html {
   background-color: var(--white);
