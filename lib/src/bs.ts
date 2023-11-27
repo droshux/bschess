@@ -19,6 +19,11 @@ export interface Piece_BS extends Base_BS {
   lives: number // eg: 2 (1 is the default) 
 }
 
+export const isPiece = (bs: any): bs is Piece_BS =>
+  bs && 
+  bs.move && typeof bs.move == 'string' && 
+  bs.take && typeof bs.take == 'string' &&
+  bs.lives && typeof bs.lives == 'number'
+
 export type BS = Base_BS | Piece_BS
-// export type BS = Partial<Piece_BS>
 export type BSstore = {[id: number]: BS}

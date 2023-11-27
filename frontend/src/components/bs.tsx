@@ -1,4 +1,4 @@
-import { BS } from '@lib/bs'
+import { BS, isPiece } from '@lib/bs'
 import { PieceCost } from '@lib/piececost'
 import '../styles/bs.css'
 
@@ -15,6 +15,8 @@ export const BSrender = (props: BSrenderPROPS): JSX.Element =>
       <p>{rebuildPieceCost(props).toString(true)}</p>
       <p>{props.bs.setup.extra}</p>
     </div>
+    {movesTakes(props)}
+    <p>{props.bs.effect}</p>
   </div>
 
 const rebuildPieceCost = (props: BSrenderPROPS): PieceCost =>
@@ -27,3 +29,11 @@ const rebuildPieceCost = (props: BSrenderPROPS): PieceCost =>
     props.bs.setup.cost.regular_cost[4],
     props.bs.setup.cost.bspiece_cost
   )
+
+const movesTakes = (props: BSrenderPROPS): JSX.Element => {
+  if (!isPiece(props.bs)) return <></>
+  return <>
+    <p>Moves: {props.bs.move}</p>
+    <p>Takes: {props.bs.take}</p>
+  </>
+}
