@@ -1,6 +1,6 @@
 export class PieceCost {
-  public regular_cost:number[] = new Array(5)
-  public bspiece_cost:string[] = []
+  public readonly regular_cost:number[]// TODO replace with a tuple!
+  public bspiece_cost:string[]// = []
 
   /**
    * @param [clamp=true] Are the input values limited to the max number of
@@ -16,11 +16,15 @@ export class PieceCost {
     const v = (x: number, m: number): number => 
       clamp ? Math.max(Math.min(Math.round(x), m), 0) : Math.round(x)
 
-    this.regular_cost[0] = v(pawns, 8)
-    this.regular_cost[1] = v(horses, 2)
-    this.regular_cost[2] = v(bishops, 2)
-    this.regular_cost[3] = v(rooks, 2)
-    this.regular_cost[4] = v(queens, 1)
+    let cost: number[] = new Array(5)
+
+    cost[0] = v(pawns, 8)
+    cost[1] = v(horses, 2)
+    cost[2] = v(bishops, 2)
+    cost[3] = v(rooks, 2)
+    cost[4] = v(queens, 1)
+
+    this.regular_cost = cost
 
     this.bspiece_cost = other
   }

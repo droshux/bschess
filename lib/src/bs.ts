@@ -1,5 +1,5 @@
 // The structure of a BS
-import { PieceCost } from "./piececost"
+import { PieceCost, regularPiece } from "./piececost"
 
 export interface Base_BS {
   name: string // The name of the BS
@@ -27,3 +27,14 @@ export const isPiece = (bs: any): bs is Piece_BS =>
 
 export type BS = Base_BS | Piece_BS
 export type BSstore = {[id: number]: BS}
+
+
+export const emptyBS = {
+      name: "",
+      lore: "",
+      setup: {
+        cost: regularPiece("pawn"),
+        extra: ""
+      },
+      effect: ""
+    }

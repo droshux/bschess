@@ -5,6 +5,7 @@ import { LearnPage } from "./pages/learn"
 import { RulesPage } from "./pages/rules"
 import { BrowsePage } from "./pages/browse"
 import { PageNotFound } from "./pages/404"
+import { CreatePage } from "./pages/create"
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
             <Route path="learn" element={<LearnPage/>}/>
             <Route path="rules" element={<RulesPage/>}/>
             <Route path="browse" element={<BrowsePage/>}/>
-            <Route path="create" element={<LearnPage/>}/>
+            <Route path="create" element={<CreatePage/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Route>
         </Routes>

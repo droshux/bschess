@@ -12,7 +12,7 @@ export const BSrender = (props: BSrenderPROPS): JSX.Element =>
     <h6><em>ID: {props.bsid}</em></h6>
     <p>{props.bs.lore}</p>
     <div>
-      <p>{rebuildPieceCost(props).toString(true)}</p>
+      <p><strong>{rebuildPieceCost(props).toString(true)}</strong></p>
       <p>{props.bs.setup.extra}</p>
     </div>
     {movesTakes(props)}
