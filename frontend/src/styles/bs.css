@@ -22,6 +22,7 @@ div.bsbox > div {
   margin: 0px .5vw .5vw;
   padding: 0.1vh 0.1vw 0.1vw 0.1vh;
   display: inline-block;
+  width: fit-content;
 }
 
 div.bsbox > div > p {

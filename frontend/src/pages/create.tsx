@@ -1,5 +1,6 @@
 import { BS, emptyBS } from '@lib/bs'
 import { PieceCost } from '@lib/piececost'
+import { Tuple } from '@lib/index'
 import * as React from 'react'
 import { BSrender } from '../components/bs'
 
@@ -67,20 +68,8 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
     const target: targetType = event.target as targetType
     const currentCost: PieceCost = this.state.bs.setup.cost
 
-    // Store the piececost pre-change into a tuple
-    let regCostTup: [
-      number, number, number, number, number
-    ] = [
-      currentCost.regular_cost[0],
-      currentCost.regular_cost[1],
-      currentCost.regular_cost[2],
-      currentCost.regular_cost[3],
-      currentCost.regular_cost[4]
-    ]
+    let regCostTup: Tuple<number, 5> = currentCost.regular_cost
     let bsCostArr: string[] = currentCost.bspiece_cost
-
-    // TODO: make this not bad by replacing piececost's regular pieces with a
-    // tuple
 
     if (target.id === "bspiece_cost")
       bsCostArr = target.value.split(/\r?\n/) // Change the bs cost
