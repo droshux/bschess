@@ -1,4 +1,4 @@
-import { BS, emptyBS } from '@lib/bs'
+import { BS, Piece_BS, emptyBS } from '@lib/bs'
 import { PieceCost } from '@lib/piececost'
 import { Tuple } from '@lib/index'
 import * as React from 'react'
@@ -57,8 +57,47 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
         })
         break
 
-      default:
+      case "effect":
+        this.setState({
+          bs: {
+            ...this.state.bs,
+            effect: target.value
+          }
+        })
         break
+
+      case "type":
+        this.setState({bstype: target.value as 'event' | 'piece'})
+        break
+
+      case "move":
+        this.setState({
+          bs: {
+            ...this.state.bs,
+            move: target.value
+          }
+        })
+        break
+
+      case "take":
+        this.setState({
+          bs: {
+            ...this.state.bs,
+            take: target.value
+          }
+        })
+        break
+
+      case "lives":
+        this.setState({
+          bs: {
+            ...this.state.bs,
+            lives: parseInt(target.value)
+          }
+        })
+        break
+
+      default: break
     }
 
   }
@@ -122,9 +161,9 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
     const currentBSCost: string[] = this.state.bs.setup.cost.bspiece_cost;
     out.push(<>
       <br></br>Any further pieces:
-      <textarea 
-        id="bspiece_cost" 
-        value={currentBSCost.length == 0 ? "" : currentBSCost.reduce((p,c)=>p+"\r\n"+c)}
+      <textarea
+        id="bspiece_cost"
+        value={currentBSCost.length == 0 ? "" : currentBSCost.reduce((p, c) => p + "\r\n" + c)}
         onChange={this.handlePieceCostChange}
         key="BS"
       />
@@ -139,21 +178,29 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
       <h1>Create:</h1>
       <form>
         <label>Bullsh*t type:
-          <select>
+          <select onChange={this.handleChange} value={this.state.bstype} id="type">
             <option value="event">Special Event</option>
             <option value="piece">Custom Piece</option>
           </select>
         </label>
-        <label>Limit Pieces: 
-          <input type="checkbox" id="limit_pieces" onChange={this.handlePieceCostChange} checked={this.state.limitPieces}/>
+        <label>Limit Pieces:
+          <input type="checkbox" id="limit_pieces" onChange={this.handlePieceCostChange} checked={this.state.limitPieces} />
         </label>
-        <label> Name: <input type="text" id="name" value={this.state.bs.name} onChange={this.handleChange}/></label>
-        <label> Lore: <textarea id="lore" value={this.state.bs.lore} onChange={this.handleChange}/></label>
+        <label>Name: <input type="text" id="name" value={this.state.bs.name} onChange={this.handleChange} /></label>
+        <label>Lore: <textarea id="lore" value={this.state.bs.lore} onChange={this.handleChange} /></label>
         <div>
           <div>
             <label>{this.genRegularPieceCostInputs()}</label>
           </div>
-          <label> Setup: <textarea id="setup.extra" value={this.state.bs.setup.extra} onChange={this.handleChange}/></label>
+          <label> Setup: <textarea id="setup.extra" value={this.state.bs.setup.extra} onChange={this.handleChange} /></label>
+        </div>
+        <label>Effect: <textarea id="effect" value={this.state.bs.effect} onChange={this.handleChange}/></label>
+        <div style={{
+          display: this.state.bstype === 'piece' ? 'block' : 'none'
+        }}>
+          <label> Moves: <textarea id="move" value={(this.state.bs as Piece_BS).move} onChange={this.handleChange} /></label>
+          <label> Takes: <textarea id="take" value={(this.state.bs as Piece_BS).take} onChange={this.handleChange} /></label>
+          <label> Lives: <input type="number" id="lives" value={(this.state.bs as Piece_BS).lives} onChange={this.handleChange} min={1} defaultValue={1}/></label>
         </div>
       </form>
       <h2>Preview:</h2>

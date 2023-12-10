@@ -38,7 +38,8 @@ const rebuildPieceCost = (props: BSrenderPROPS): PieceCost =>
 const movesTakes = (props: BSrenderPROPS): JSX.Element => {
   if (!isPiece(props.bs)) return <></>
   return <>
-    <p>Moves: {props.bs.move}</p>
-    <p>Takes: {props.bs.take}</p>
+    <p><em>Moves:</em> {props.bs.move}</p>
+    <p><em>Takes:</em> {props.bs.take}</p>
+    {props.bs.lives > 1 ? <p><em>Lives:</em> {props.bs.lives}</p> : <></>}
   </>
 }
