@@ -11,7 +11,12 @@ export const BSrender = (props: BSrenderPROPS): JSX.Element =>
     <h3>{props.bs.name}</h3>
     <h6><em>ID: {props.bsid}</em></h6>
     <p>{props.bs.lore}</p>
-    <div>
+    <div style={{
+      display: (
+        props.bs.setup.cost.regular_cost.reduce((p, n) => p + n) > 0 ||
+        props.bs.setup.extra.length != 0
+      ) ? 'inherit' : 'none'
+    }}>
       <p><strong>{rebuildPieceCost(props).toString(true)}</strong></p>
       <p>{props.bs.setup.extra}</p>
     </div>

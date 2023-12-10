@@ -37,10 +37,10 @@ export class PieceCost {
     for (let i = 0; i < this.regular_cost.length; i++) {
       const elem: number = this.regular_cost[i];
       if (elem == 0) continue;
-      stringOut += elem > 1 ? `${elem} ${nameArr[i]}s ` : `${nameArr[i]} `
+      stringOut += elem > 1 ? `${elem} ${nameArr[i]}s, ` : `${nameArr[i]}, `
     }
-    this.bspiece_cost.forEach(elem => stringOut += `${elem} `)
-    return stringOut.trimEnd()
+    this.bspiece_cost.forEach(elem => stringOut += `${elem}, `)
+    return stringOut.replace(/,\s*$/, "")
   }
 
 }

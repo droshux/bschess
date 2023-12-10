@@ -1,6 +1,7 @@
 import { BS, emptyBS } from '@lib/bs'
 import { PieceCost } from '@lib/piececost'
 import * as React from 'react'
+import { BSrender } from '../components/bs'
 
 type createPagePROPS = {}
 type createPageSTATE = {
@@ -82,10 +83,10 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
     // tuple
 
     if (target.id === "bspiece_cost")
-      // Change the bs cost
-      bsCostArr = target.value.split(/\r?\n/)
-    // Change one of the elements of the tuple
-    else regCostTup[parseInt(target.id)] = parseInt(target.value)
+      bsCostArr = target.value.split(/\r?\n/) // Change the bs cost
+    else if (target.id === "limit_pieces")
+      this.setState({ limitPieces: (target as HTMLInputElement).checked })
+    else regCostTup[parseInt(target.id)] = parseInt(target.value) // Change one of the elements of the tuple
 
     // Update the bs with a new PieceCost
     this.setState({
@@ -124,6 +125,8 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
         value={this.state.bs.setup.cost.regular_cost[i]}
         onChange={this.handlePieceCostChange}
         key={i}
+        min={0}
+        max={this.state.limitPieces ? pieces[i].max : ""}
       /> {pieces[i].symb}
     </>)
 
@@ -152,6 +155,9 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
             <option value="piece">Custom Piece</option>
           </select>
         </label>
+        <label>Limit Pieces: 
+          <input type="checkbox" id="limit_pieces" onChange={this.handlePieceCostChange} checked={this.state.limitPieces}/>
+        </label>
         <label> Name: <input type="text" id="name" value={this.state.bs.name} onChange={this.handleChange}/></label>
         <label> Lore: <textarea id="lore" value={this.state.bs.lore} onChange={this.handleChange}/></label>
         <div>
@@ -161,6 +167,8 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
           <label> Setup: <textarea id="setup.extra" value={this.state.bs.setup.extra} onChange={this.handleChange}/></label>
         </div>
       </form>
+      <h2>Preview:</h2>
+      <BSrender bsid={-1} bs={this.state.bs} />
     </>)
   }
 }
