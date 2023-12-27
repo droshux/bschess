@@ -1,25 +1,29 @@
-import { BS, Piece_BS, emptyBS } from '@lib/bs'
+import { BS, Base_BS, Piece_BS, emptyBS } from '@lib/bs'
 import { PieceCost } from '@lib/piececost'
 import { Tuple } from '@lib/index'
 import * as React from 'react'
 import { BSrender } from '../components/bs'
+import '../styles/create.css'
+import { HttpStatus } from 'http-status-ts'
 
 type createPagePROPS = {}
 type createPageSTATE = {
   bs: BS
   bstype: "event" | "piece"
   limitPieces: boolean
+  errorText?: string
 }
 type targetType = HTMLInputElement | HTMLTextAreaElement
 
 export class CreatePage extends React.Component<createPagePROPS, createPageSTATE> {
   constructor(props: createPagePROPS) {
     super(props)
-    this.state = {bs: emptyBS, bstype: "event", limitPieces: false}
+    this.state = { bs: emptyBS, bstype: "event", limitPieces: false }
 
     // Bind event listeners
     this.handleChange = this.handleChange.bind(this)
     this.handlePieceCostChange = this.handlePieceCostChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event: React.ChangeEvent) {
@@ -132,6 +136,28 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
     })
   }
 
+  private modalRef = React.createRef<HTMLDialogElement>()
+  // private previewRef = React.createRef<HTMLDivElement>()
+
+  handleSubmit(event: React.FormEvent) {
+    const newBS: BS = this.state.bstype === 'event' ? 
+      this.state.bs as Base_BS : this.state.bs
+
+    fetch("/bss", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newBS)
+    }).then(async res => {
+        console.log(res.statusText)
+        if (res.status != HttpStatus.CREATED) {
+          console.log(await res.text())
+          this.setState({errorText: "TEST TEXT"})
+        } else this.setState({errorText: undefined})
+        this.modalRef.current?.showModal()
+      })
+    event.preventDefault()
+  }
+
   genRegularPieceCostInputs(): JSX.Element[] {
     let out: JSX.Element[] = []
     type pCost = {
@@ -176,7 +202,7 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
   render(): React.ReactNode {
     return (<>
       <h1>Create:</h1>
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <label>Bullsh*t type:
           <select onChange={this.handleChange} value={this.state.bstype} id="type">
             <option value="event">Special Event</option>
@@ -202,9 +228,20 @@ export class CreatePage extends React.Component<createPagePROPS, createPageSTATE
           <label> Takes: <textarea id="take" value={(this.state.bs as Piece_BS).take} onChange={this.handleChange} /></label>
           <label> Lives: <input type="number" id="lives" value={(this.state.bs as Piece_BS).lives} onChange={this.handleChange} min={1} defaultValue={1}/></label>
         </div>
+        <input type='submit' value={"FINISH"} />
       </form>
       <h2>Preview:</h2>
-      <BSrender bsid={-1} bs={this.state.bs} />
+      <BSrender bsid={-1} bs={this.state.bs}/>
+      <dialog ref={this.modalRef}>
+        <div style={{display: this.state.errorText == undefined ? 'block' : 'none'}}>
+          <h2>Successfully Created Piece:</h2>
+          <BSrender bsid={-1} bs={this.state.bs}/>
+        </div>
+        <div className='error' style={{display: this.state.errorText != undefined ? 'block' : 'none'}}>
+          <h2>ERROR</h2>
+          <p>{this.state.errorText}</p>
+        </div>
+      </dialog>
     </>)
   }
 }
