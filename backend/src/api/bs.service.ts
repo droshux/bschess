@@ -1,30 +1,7 @@
 import { BS, regularPiece, BSstore } from "@lib/index"
 import { readFileSync, writeFileSync } from "fs"
 
-export let BSs: BSstore = {
-  1: {
-    name: "Test Event",
-    lore: "Test Lore",
-    setup: {
-      cost: regularPiece("pawn"),
-      extra: ""
-    },
-    effect: "Test Effect"
-  },
-  2: {
-    name: "Test Piece",
-    lore: "Test Lore 2",
-    setup: {
-      cost: regularPiece("pawn"),
-      extra: ""
-    },
-    effect: "Test Effect 2",
-    move: "Like a pawn",
-    take: "[move]",
-    lives: 1
-  }
-}
-// let BSs: BSstore = {}
+let BSs: BSstore = {}
 const maxID = (): number => Object.keys(BSs)
   .map((a: string) => +a)
   .reduce((a: number, b: number) => Math.max(a, b))
@@ -32,14 +9,15 @@ const minID = (): number => Object.keys(BSs)
   .map((a: string) => +a)
   .reduce((a: number, b: number) => Math.min(a, b))
 
-export const create = async (nbs: BS): Promise<BS> => {
+export const create = async (nbs: BS, id?: number): Promise<BS> => {
   // One more than the largest ID (⌈/⍕¨)Object.keys(BSs)
-  const newID: number = maxID()+1
+  const newID: number =  id != undefined ? id : maxID()+1
 
   BSs[newID] = nbs
   return BSs[newID]
 }
-export const findall = async (): Promise<BS[]> => Object.values(BSs)
+export const findall = async (): Promise<BSstore> => BSs
+// export const findall = async (): Promise<BS[]> => Object.values(BSs)
 export const find = async (id: number): Promise<BS> => BSs[id]
 export const update = async (id: number, ubs: BS): Promise<BS | null> => {
   if (!await find(id)) return null

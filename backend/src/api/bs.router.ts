@@ -63,7 +63,7 @@ bssRouter.put("/:id", async (req: Request, res: Response) => {
   try {
     if (await BSService.find(id)) 
       return res.status(HttpStatus.OK).json(BSService.update(id, req.body))
-    res.status(HttpStatus.CREATED).json(BSService.create(req.body))
+    res.status(HttpStatus.CREATED).json(BSService.create(req.body, id))
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
   }

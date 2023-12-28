@@ -50,7 +50,7 @@ export class AdminPage extends React.Component<adminPagePROPS, adminPageSTATE> {
       <h1>Secret Admin Page UwU!</h1><br/>
       <input type='number' id='selectedID' onChange={this.handleSelectedIDChange} value={this.state.selectedID}/>
       <input type='text' id='adminPWD' onChange={this.handleAdminPWDChange} value={this.state.adminPWD}/>
-      <CreateMenu ref={this.menuRef} successCode={HttpStatus.OK} route={`/bss/${this.state.selectedID}?pwd=${this.state.adminPWD}`} method='PUT' />
+      <CreateMenu ref={this.menuRef} successCodes={[HttpStatus.OK, HttpStatus.CREATED]} route={`/bss/${this.state.selectedID}?pwd=${this.state.adminPWD}`} method='PUT' />
     </>
   }
 }

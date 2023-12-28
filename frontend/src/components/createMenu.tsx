@@ -9,7 +9,7 @@ import { HttpStatus } from 'http-status-ts'
 type createMenuPROPS = {
   route: RequestInfo | URL
   method: string | undefined
-  successCode: HttpStatus
+  successCodes: HttpStatus[]
 }
 type createMenuSTATE = {
   bs: BS
@@ -151,10 +151,10 @@ export class CreateMenu extends React.Component<createMenuPROPS, createMenuSTATE
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newBS)
     }).then(async res => {
-        if (res.status != this.props.successCode)
-          this.setState({errorText: await res.text()})
-        else this.setState({errorText: undefined})
-        this.modalRef.current?.showModal()
+      if (this.props.successCodes.includes(res.status))
+        this.setState({ errorText: undefined })
+      else this.setState({ errorText: await res.text() })
+      this.modalRef.current?.showModal()
       })
     event.preventDefault()
   }
