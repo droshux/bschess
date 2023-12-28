@@ -4,7 +4,7 @@
 import * as dotenv from "dotenv"
 import cors from "cors"
 import express from "express"
-import { router, systemRouter } from "./api/bs.router.js"
+import { bssRouter, systemRouter } from "./api/bs.router.js"
 import { load } from "./api/bs.service.js"
 
 // Get PORT from .env
@@ -16,14 +16,8 @@ const PORT: number = parseInt(process.env.PORT as string, 10)
 const app = express()
 app.use(cors())
 app.use(express.json())
-
-// // Experimental Proxy Code
-// import * as proxy from 'express-http-proxy'
-// app.use("site/",proxy.default("http://localhost:5173", {
-//   preserveHostHdr: true
-// }))
-// app.use("api/bss", router) // Include our router in the express
-// app.use("/sys", systemRouter)
+app.use("/bss/", bssRouter)
+app.use("/sys/", systemRouter)
 
 // Load data from file
 await load()
