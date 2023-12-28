@@ -6,6 +6,7 @@ import { RulesPage } from "./pages/rules"
 import { BrowsePage } from "./pages/browse"
 import { PageNotFound } from "./pages/404"
 import { CreatePage } from "./pages/create"
+import { AdminPage } from "./pages/admin"
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="rules" element={<RulesPage/>}/>
             <Route path="browse" element={<BrowsePage/>}/>
             <Route path="create" element={<CreatePage/>}/>
+            <Route path="admin" element={<AdminPage/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Route>
         </Routes>
