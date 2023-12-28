@@ -4,7 +4,7 @@
   "description": "The back-end for the bschess website system.",
   "type": "module",
   "scripts": {
-    "start": "bun src/index.ts"
+    "start": "bun --watch src/index.ts"
   },
   "author": "droshux",
   "license": "ISC",
