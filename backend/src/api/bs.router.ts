@@ -1,6 +1,7 @@
 import express, {Request, Response } from "express"
 import * as BSService from "./bs.service.js"
 import { BS } from "@lib/bs"
+import { cyrb53 } from "@lib/index.js"
 import { HttpStatus } from "http-status-ts"
 import * as dotenv from "dotenv"
 
@@ -10,7 +11,7 @@ export const bssRouter = express.Router()
 export const systemRouter = express.Router()
 
 const pwdCheck = (req: Request): boolean =>
-  !process.env.ADMINPWD || req.query.pwd != process.env.ADMINPWD
+  !process.env.ADMINPWD || req.query.pwd != cyrb53(process.env.ADMINPWD).toString()
 
 // GET bss
 bssRouter.get("/", async (_req: Request, res: Response) => {
@@ -91,6 +92,19 @@ systemRouter.get("/quit", async (req: Request, res: Response) => {
   try {
     await BSService.save()
     res.status(HttpStatus.OK).send("Data saved successfully, shutting down...")
+    res.end()
+    process.exit(0)
+  } catch (e: any) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
+  }
+})
+// Same but you don't save
+systemRouter.get("/quit_unsafe", async (req: Request, res: Response) => {
+  if (pwdCheck(req))
+    return res.status(HttpStatus.NOT_ACCEPTABLE).send("Password Incorrect!")
+  try {
+    res.status(HttpStatus.OK).send("NO DATA SAVED, shutting down...")
+    res.end()
     process.exit(0)
   } catch (e: any) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(e.message)
