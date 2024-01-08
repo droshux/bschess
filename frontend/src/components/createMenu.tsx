@@ -4,6 +4,7 @@ import { Tuple } from '@lib/index'
 import * as React from 'react'
 import { BSrender } from '../components/bs'
 import '../styles/create.css'
+import '../styles/bs.css'
 import { HttpStatus } from 'http-status-ts'
 
 type createMenuPROPS = {
@@ -212,30 +213,32 @@ export class CreateMenu extends React.Component<createMenuPROPS, createMenuSTATE
         <label>Limit Pieces:
           <input type="checkbox" id="limit_pieces" onChange={this.handlePieceCostChange} checked={this.state.limitPieces} />
         </label>
-        <label>Name: <input type="text" id="name" value={this.state.bs.name} onChange={this.handleChange} /></label>
-        <label>Lore: <textarea id="lore" value={this.state.bs.lore} onChange={this.handleChange} /></label>
-        <div>
+        <div className='bsbox'>
+          <label>Name: <input type="text" id="name" value={this.state.bs.name} onChange={this.handleChange} /></label>
+          <label>Lore: <textarea id="lore" value={this.state.bs.lore} onChange={this.handleChange} /></label>
           <div>
-            <label>{this.genRegularPieceCostInputs()}</label>
+            <div>
+              <label className='regPieceCostInputs'>{this.genRegularPieceCostInputs()}</label>
+            </div>
+            <label> Setup: <textarea id="setup.extra" value={this.state.bs.setup.extra} onChange={this.handleChange} /></label>
           </div>
-          <label> Setup: <textarea id="setup.extra" value={this.state.bs.setup.extra} onChange={this.handleChange} /></label>
-        </div>
-        <label>Effect: <textarea id="effect" value={this.state.bs.effect} onChange={this.handleChange}/></label>
-        <div style={{
-          display: this.state.bstype === 'piece' ? 'block' : 'none'
-        }}>
-          <label> Moves: <textarea id="move" value={(this.state.bs as Piece_BS).move} onChange={this.handleChange} /></label>
-          <label> Takes: <textarea id="take" value={(this.state.bs as Piece_BS).take} onChange={this.handleChange} /></label>
-          <label> Lives: <input type="number" id="lives" value={(this.state.bs as Piece_BS).lives} onChange={this.handleChange} min={1} defaultValue={1}/></label>
+          <label>Effect: <textarea id="effect" value={this.state.bs.effect} onChange={this.handleChange} /></label>
+          <div style={{
+            display: this.state.bstype === 'piece' ? 'block' : 'none'
+          }}>
+            <label> Moves: <textarea id="move" value={(this.state.bs as Piece_BS).move} onChange={this.handleChange} /></label>
+            <label> Takes: <textarea id="take" value={(this.state.bs as Piece_BS).take} onChange={this.handleChange} /></label>
+            <label> Lives: <input type="number" id="lives" value={(this.state.bs as Piece_BS).lives} onChange={this.handleChange} min={1} defaultValue={1} /></label>
+          </div>
         </div>
         <input type='submit' value={"FINISH"} />
       </form>
       <h2>Preview:</h2>
-      <BSrender bsid={-1} bs={this.state.bs}/>
+      <BSrender bsid={-1} bs={this.state.bs} allowLoose={true}/>
       <dialog ref={this.modalRef}>
         <div style={{display: this.state.errorText == undefined ? 'block' : 'none'}}>
           <h2>Successfully Created Piece:</h2>
-          <BSrender bsid={-1} bs={this.state.bs}/>
+          <BSrender bsid={-1} bs={this.state.bs} allowLoose={true}/>
         </div>
         <div className='error' style={{display: this.state.errorText != undefined ? 'block' : 'none'}}>
           <h2>ERROR</h2>

@@ -78,3 +78,7 @@ div.navmenu > nav > a {
 div.navmenu > nav > a:hover {
   text-decoration: underline;
 }
+
+body {
+  padding-bottom: 4em;
+}

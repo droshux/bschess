@@ -16,3 +16,11 @@ div.error {
   border-color: red;
   padding: 8px;
 }
+
+form > div > div > label , form > div > label{
+  display: block;
+  margin-left:15px
+}
+label.regPieceCostInputs > input[type=number] {
+  margin-left: 15px;
+}

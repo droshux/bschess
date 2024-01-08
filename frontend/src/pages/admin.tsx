@@ -2,7 +2,7 @@ import * as React from 'react'
 import { CreateMenu } from '../components/createMenu'
 import { HttpStatus } from 'http-status-ts'
 import { emptyBS } from '@lib/bs'
-import { cyrb53 } from '@lib/index'
+import { cyrb53, isEmpty} from '@lib/index'
 
 type adminPagePROPS = {}
 type adminPageSTATE = {
@@ -82,7 +82,6 @@ export class AdminPage extends React.Component<adminPagePROPS, adminPageSTATE> {
   handleShutdownButtonPress(event: React.MouseEvent) {
 
     // Set stuff up, for shutting down the backend
-    const isEmpty = (s: string): boolean => s == null || s.trim().length === 0
     const id: string = (event.target as HTMLButtonElement).id
     const successMsg = id === noSaveShutdown ? 
       "Backend shutdown successfully. No data was saved." :
@@ -102,7 +101,7 @@ export class AdminPage extends React.Component<adminPagePROPS, adminPageSTATE> {
     return <>
       <h1>Secret Admin Page UwU!</h1><br/>
       <input type='number' id='selectedID' onChange={this.handleSelectedIDChange} value={this.state.selectedID}/>
-      <input type='text' id='adminPWD' onChange={this.handleAdminPWDChange} value={this.state.adminPWD}/>
+      <input type='password' id='adminPWD' onChange={this.handleAdminPWDChange} value={this.state.adminPWD}/>
       <CreateMenu ref={this.menuRef} successCodes={[HttpStatus.OK, HttpStatus.CREATED]} route={`/bss/${this.state.selectedID}?pwd=${cyrb53(this.state.adminPWD).toString()}`} method='PUT' />
       <button id='deletebutton' onClick={this.handleDeleteButtonPress}>DELETE</button>
       <br/>

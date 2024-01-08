@@ -20,3 +20,5 @@ export const cyrb53 = (str: string, seed: number = 0) => {
 
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 }
+
+export const isEmpty = (s: string): boolean => s == null || s.trim().length === 0

@@ -1,5 +1,6 @@
 // The structure of a BS
 import { PieceCost, regularPiece } from "./piececost"
+import { isEmpty } from "./index"
 
 export interface Base_BS {
   name: string // The name of the BS
@@ -21,9 +22,16 @@ export interface Piece_BS extends Base_BS {
 
 export const isPiece = (bs: any): bs is Piece_BS =>
   bs && 
-  bs.move && typeof bs.move == 'string' && 
-  bs.take && typeof bs.take == 'string' &&
+  bs.move && typeof bs.move == 'string' && !isEmpty(bs.move) && 
+  bs.take && typeof bs.take == 'string' && !isEmpty(bs.take) &&
   bs.lives && typeof bs.lives == 'number'
+
+export const isPieceLOOSE = (bs: any): boolean =>
+  bs && (
+    (bs.move && typeof bs.move == 'string' && !isEmpty(bs.move)) ||
+    (bs.take && typeof bs.take == 'string' && !isEmpty(bs.take)) ||
+    (bs.lives && typeof bs.lives == 'number')
+  )
 
 export type BS = Base_BS | Piece_BS
 export type BSstore = {[id: number]: BS}

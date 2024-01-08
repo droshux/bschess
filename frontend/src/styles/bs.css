@@ -4,6 +4,7 @@ div.bsbox {
   margin: 0.25vw;
   background-color: var(--white);
   padding-right: 0.5vw;
+  width: fit-content;
 }
 
 div.bsbox > h3 {
@@ -31,6 +32,7 @@ div.bsbox > div > p {
 
 div.bssContainer {
   display: inline-block;
+  max-width: 50%;
 }
 
 button.refresh {
